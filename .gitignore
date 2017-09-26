@@ -3,4 +3,4 @@ env/
 *.py[oc]
 media/
 db.sqlite3
-migrations/
+
