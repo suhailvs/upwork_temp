@@ -1,11 +1,13 @@
-	<div style="padding:40px;margin:40px;border:1px solid #ccc">
-		<h1>picture</h1>
-		<form action="#" method="post" enctype="multipart/form-data">
-			{% csrf_token %} {{form}} 
-			<input type="submit" value="Upload" />
-		</form>
-		{% for img in images %}
-			{{forloop.counter}}.<a href="{{ img.pic.url }}">{{ img.pic.name }}</a>
-			({{img.upload_date}})<hr />
-		{% endfor %}
-	</div>
+<h3> Create users and store into db from 3rd party API for list of users</h3>
+<hr>
+<h1>Users</h1>
+<form action="#" method="post">
+	{% csrf_token %} 
+	<input type="text" name="email" />
+	<input type="submit" value="+ Add" />
+</form>
+<ul>
+{% for user in users %}
+	<li><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
+{% endfor %}
+</ul>

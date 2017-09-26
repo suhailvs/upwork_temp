@@ -22,5 +22,7 @@ from uploader import views as uploader_views
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
-	url(r'^upload/$', uploader_views.home, name='imageupload'),
+
+	url(r'^$', uploader_views.home, name='home'),
+	url(r'^user/(\d+)/$', uploader_views.upload,name='user_pic'),    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
