@@ -25,7 +25,7 @@ SECRET_KEY = '-5pmsh+xa%$mnqms6arcr_mx+#@e@$3!0xs5nd(64lx_#3e-ez'
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['*']
 
 
 # Application definition
@@ -121,3 +121,9 @@ USE_TZ = True
 STATIC_URL = '/static/'
 MEDIA_ROOT = os.path.join(os.path.dirname(os.path.dirname(__file__)), 'media')
 MEDIA_URL = '/media/'
+
+EMAIL_HOST = 'smtp.gmail.com'
+EMAIL_HOST_USER = 'suhailvs@gmail.com'
+EMAIL_HOST_PASSWORD = 'fhrtaonyhedwowua'
+EMAIL_PORT = 587
+EMAIL_USE_TLS = True

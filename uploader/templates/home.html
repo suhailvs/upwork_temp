@@ -1,13 +1,21 @@
-<h3> Create users and store into db from 3rd party API for list of users</h3>
+{% extends "base.html" %}
+{% block content %}
+<p> Todo: Create users and store into db from 3rd party API for list of users, instead of forms</p>
 <hr>
 <h1>Users</h1>
 <form action="#" method="post">
 	{% csrf_token %} 
-	<input type="text" name="email" />
-	<input type="submit" value="+ Add" />
+	<div class="input-group">
+      <input type="text" class="form-control" placeholder="Add Email.." name="email">
+      <span class="input-group-btn">
+        <button class="btn btn-secondary" type="submit">Add!</button>
+      </span>
+    </div>
 </form>
-<ul>
+<hr>
+<ul class="list-group">
 {% for user in users %}
-	<li><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
+	<li class="list-group-item"><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
 {% endfor %}
 </ul>
+{% endblock %}
