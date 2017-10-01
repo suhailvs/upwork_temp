@@ -1,21 +1,16 @@
 {% extends "base.html" %}
 {% block content %}
-<p> Todo: Create users and store into db from 3rd party API for list of users, instead of forms</p>
-<hr>
-<h1>Users</h1>
+<p> Todo: Rather than button set celery to Schedule the Sync task every day</p>
+
+<h1>Candidates:</h1>
 <form action="#" method="post">
 	{% csrf_token %} 
-	<div class="input-group">
-      <input type="text" class="form-control" placeholder="Add Email.." name="email">
-      <span class="input-group-btn">
-        <button class="btn btn-secondary" type="submit">Add!</button>
-      </span>
-    </div>
+	<button class="btn btn-secondary" type="submit">Sync Candidates!</button>
 </form>
 <hr>
 <ul class="list-group">
 {% for user in users %}
-	<li class="list-group-item"><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
+	<li class="list-group-item{% if user.pic %} list-group-item-success{%endif%}"><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
 {% endfor %}
 </ul>
 {% endblock %}
