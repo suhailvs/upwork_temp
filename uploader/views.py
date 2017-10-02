@@ -2,7 +2,7 @@
 from __future__ import unicode_literals
 
 from django.shortcuts import render
-from uploader.models import UploadForm,Candidate
+from uploader.models import UploadForm,Candidate,User
 
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
@@ -24,23 +24,34 @@ def api_request(endpoint):
 		raise
 
 	return json.loads(resp.read())
+"""
+# sync emails
 
+data = api_request('/candidates')
+
+for c in data['items']:
+	print c['email']
+	if Candidate.objects.filter(email=c['email']):continue
+	usr= Candidate(cId=c['candidateId'],firstname=c['firstName'],
+	email=c['email'])
+	
+	data2 = api_request('/candidates/'+str(c['candidateId']))
+	usr.recruiter=data2['recruiters'][0]['firstName']
+	if 'employment' in data2:
+		usr.employer=data2["employment"]['current']['employer']
+
+	usr.save()
+"""
 def home(request):
 	if request.method=="POST":
 		# sync emails
-		data = api_request('/candidates')
+
+		data = api_request('/users')
 		
-		for c in data['items']:
-			print c['email']
-			if Candidate.objects.filter(email=c['email']):continue
-			usr= Candidate(cId=c['candidateId'],firstname=c['firstName'],
-			email=c['email'])
-			
-			data2 = api_request('/candidates/'+str(c['candidateId']))
-			usr.recruiter=data2['recruiters'][0]['firstName']
-			if 'employment' in data2:
-				usr.employer=data2["employment"]['current']['employer']
-		
+		for u in data['items']:
+			if User.objects.filter(email=u['email']):continue
+			usr= User(uId=u['userId'],firstname=u['firstName'],
+			email=u['email'])
 			usr.save()
 		'''
 		# email for image upload
@@ -57,11 +68,11 @@ def home(request):
 			'support@minttalent.com',[usr.email],fail_silently=False)
 		return HttpResponseRedirect(reverse('home'))
 		'''
-	users=Candidate.objects.all()
+	users=User.objects.all()
 	return render(request,'home.html',{'users':users})
 
 def upload(request,pk):
-	usr=Candidate.objects.get(pk=pk)
+	usr=User.objects.get(pk=pk)
 	if usr.pic:
 		# if pic exist. show the pic
 		return render(request,'view.html',{'user':usr})

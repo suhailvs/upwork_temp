@@ -10,11 +10,17 @@ class Candidate(models.Model):
 	recruiter = models.CharField(max_length=50)
 	employer = models.CharField(max_length=50)
 	
+	
+class User(models.Model):
+	uId=models.CharField(max_length=10)
+	email=models.CharField(max_length=50)
+	firstname=models.CharField(max_length=50)
 	pic = models.FileField(upload_to="images/",blank=True,null=True)    
 	upload_date=models.DateTimeField(auto_now_add =True)
 
 # FileUpload form class.
 class UploadForm(ModelForm):
 	class Meta:
-		model = Candidate
+		model = User
+		
 		fields = ('pic',)
