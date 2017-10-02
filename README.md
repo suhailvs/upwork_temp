@@ -17,11 +17,10 @@ $ pip install django
 ```
 + Migrate and sync db and give permission to media:
 ```
-$ ./manage.py makemigrations
-$ ./manage.py migrate
-
 $ mkdir media
 $ chmod 777 media
+$ ./manage.py makemigrations
+$ ./manage.py migrate
 $ cd media/
 $ chmod 777 db.sqlite3
 ```
