@@ -127,3 +127,4 @@ EMAIL_HOST_USER = 'suhailvs@gmail.com'
 EMAIL_HOST_PASSWORD = 'fhrtaonyhedwowua'
 EMAIL_PORT = 587
 EMAIL_USE_TLS = True
+

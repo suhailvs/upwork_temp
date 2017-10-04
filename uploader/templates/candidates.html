@@ -1,0 +1,10 @@
+{% extends "base.html" %}
+{% block content %}
+<h1>Candidates:</h1>
+<hr>
+<ul class="list-group">
+{% for cand in cands %}
+	<li class="list-group-item">{{cand.email}} </li>
+{% endfor %}
+</ul>
+{% endblock %}
