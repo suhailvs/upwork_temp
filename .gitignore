@@ -3,4 +3,5 @@ env/
 *.py[oc]
 media/
 db.sqlite3
-
+celerybeat-schedule
+celerybeat.pid

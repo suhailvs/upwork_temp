@@ -1,12 +1,10 @@
 {% extends "base.html" %}
 {% block content %}
-<p> Todo: Rather than button set celery to Schedule the Sync task every day</p>
-
 <h1>Users:</h1>
-<form action="#" method="post">
+<!--<form action="#" method="post">
 	{% csrf_token %} 
 	<button class="btn btn-secondary" type="submit">Sync Users!</button>
-</form>
+</form>-->
 <hr>
 <ul class="list-group">
 {% for user in users %}
