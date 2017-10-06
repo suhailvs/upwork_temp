@@ -1,28 +1,25 @@
 # Create your tasks here
 from __future__ import absolute_import, unicode_literals
 from celery import shared_task
-from uploader.models import Candidate,User
+from uploader.models import Candidate,User,Synclog
+from uploader.emails import email_user, email_candidate
+import urllib2,json
 
-@shared_task
-def add(x, y):
-    return x + y
-
-def api_request(endpoint):
-	import urllib2,json
+def api_request(endpoint):	
 	api_key="Bearer c89a75b73fc1a4753d9fa4a0361e3e49"
 	api_url="http://api.jobadder.com/v2"+endpoint
 	req = urllib2.Request(api_url)
 	req.add_header('Authorization',api_key)
+	resp=urllib2.urlopen(req)
+	"""
 	try:
 		resp=urllib2.urlopen(req)
 	except urllib2.HTTPError, err:
 		print 'Http ERROR:'+str(err.code)
 		raise
+	"""
 	return json.loads(resp.read())
 
-from uploader.emails import email_user, email_candidate
-
-@shared_task
 def sync_users():
 	data = api_request('/users')
 	for u in data['items']:
@@ -32,7 +29,6 @@ def sync_users():
 		usr.save()
 		email_user(usr)
 
-@shared_task
 def sync_candidates():
 	data = api_request('/candidates')
 	for c in data['items']:
@@ -47,3 +43,13 @@ def sync_candidates():
 		cand.save()
 		email_candidate(cand)		
 	
+@shared_task
+def sync_api():
+	slog=Synclog.objects.create() #status = 'fail'
+	sync_users()
+	slog.status='cfail'
+	slog.save()
+
+	sync_candidates()
+	slog.status='success'
+	slog.save()

@@ -11,12 +11,8 @@ app.autodiscover_tasks()
 from celery.schedules import crontab
 app.conf.beat_schedule = {
     'task_users': {
-        'task': 'uploader.tasks.sync_users',
+        'task': 'uploader.tasks.sync_api',
         'schedule': crontab(minute='*/10')
-    },
-    'task_candidates': {
-        'task': 'uploader.tasks.sync_candidates',
-        'schedule': crontab(minute='*/15')
     }
 }
 @app.task(bind=True)

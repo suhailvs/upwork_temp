@@ -25,6 +25,8 @@ urlpatterns = [
 
 	url(r'^$', uploader_views.home, name='home'),
     url(r'^candidates/$', uploader_views.candidates, name='candidates'),
+    url(r'^logs/$', uploader_views.sync_log, name='sync_log'),
+    
 	url(r'^user/(\d+)/$', uploader_views.upload,name='user_pic'),    
 ]+ static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)
 from django.contrib.staticfiles.urls import staticfiles_urlpatterns

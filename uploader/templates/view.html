@@ -1,6 +1,6 @@
 {% extends "base.html" %}
 {% block content %}
-
+<p class="lead">{{user.email}}</p>
 <div class="card" style="width: 20rem;">
   <img class="card-img-top" src="{{ user.pic.url }}" alt="Profile Pic">
   <div class="card-body">
@@ -9,12 +9,12 @@
     <a href="{{ user.pic.url }}" class="card-link">{{ user.pic.name }}</a>
   </div>
   <ul class="list-group list-group-flush">
-  <li class="list-group-item">Name: <strong>{{user.firstname}}</strong></li>
+  <li class="list-group-item">Name: <strong>{{user.firstname}} {{user.lastname}}</strong></li>
     
   <!--
     <li class="list-group-item">Client: <strong>{{user.employer}}</strong></li>
     <li class="list-group-item">Consultant: <strong>{{user.recruiter}}</strong></li>-->
-    <li class="list-group-item">{{user.upload_date}}</li>
+    <li class="list-group-item">{{user.date}}</li>
   </ul>
 </div>
 

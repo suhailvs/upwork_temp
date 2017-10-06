@@ -1,0 +1,9 @@
+{% extends "base.html" %}
+{% block content %}
+<p class="lead">Synchronization Logs:</p> Shows the time at which the endpoint syncronized and status. Red shows syncronization failed, Black means 'user' endpoint success, Green means all success  
+<ul>
+{% for log in logs %}
+	<li{% if log.status == "fail" %} style="color:red;"{% elif log.status == "success" %} style="color:green"{%endif%}>{{log.date}} </li>
+{% endfor %}
+</ul>
+{% endblock %}
