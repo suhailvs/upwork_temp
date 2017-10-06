@@ -1,10 +1,20 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Candidates:</h1>
-<hr>
-<ul class="list-group">
+<p class="lead">Candidates</p>
+
 {% for cand in cands %}
-	<li class="list-group-item">{{cand.email}} </li>
+<div class="card border-secondary mb-3" style="max-width: 20rem;">
+  <div class="card-header">{{cand.email}}</div>
+  <div class="card-body text-secondary">
+    <h4 class="card-title">{{cand.firstname}} {{cand.lastname}}</h4>
+    <ul>
+    	<li>Candidate ID: {{cand.cId}}</li>
+    	<li>Recruiter: {{cand.recruiter}}</li>
+    	<li>Employer: {{cand.employer}}</li>
+    	<li>sync on: {{cand.date}}</li>
+    </ul>
+  </div>
+</div>
 {% endfor %}
-</ul>
+
 {% endblock %}

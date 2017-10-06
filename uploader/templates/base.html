@@ -1,3 +1,6 @@
+{% url 'home' as users_url %}
+{% url 'candidates' as candidates_url %}
+{% url 'sync_log' as logs_url %}
 <!DOCTYPE html>
 <html lang="en">
   <head>
@@ -9,11 +12,19 @@
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
   </head>
   <body>
-
-    <div class="container" style="margin-top: 60px">
-  		<a href="/" class="btn btn-primary">Users</a>  <a href="/candidates/" class="btn btn-primary">Candidates</a><hr>
-  	  {% block content %}{%endblock%}
+    <div class="container" style="margin-top: 40px">
+      <ul class="nav nav-tabs">
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == users_url %} active{% endif %}" href="{{users_url}}">Users</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == candidates_url %} active{% endif %}" href="{{candidates_url}}">Candidates</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link{% if request.path == logs_url %} active{% endif %}" href="{{logs_url}}">Logs</a>
+        </li>
+      </ul>
+  		<div style="padding: 20px">{% block content %}{%endblock%}</div>
     </div>
-
    </body>
  </html>

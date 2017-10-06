@@ -1,11 +1,7 @@
 {% extends "base.html" %}
 {% block content %}
-<h1>Users:</h1>
-<!--<form action="#" method="post">
-	{% csrf_token %} 
-	<button class="btn btn-secondary" type="submit">Sync Users!</button>
-</form>-->
-<hr>
+
+<p class="lead">Users</p>
 <ul class="list-group">
 {% for user in users %}
 	<li class="list-group-item{% if user.pic %} list-group-item-success{%endif%}"><a href="{% url 'user_pic' user.pk %}">{{user.email}}</a> </li>
