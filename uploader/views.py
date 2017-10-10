@@ -7,19 +7,24 @@ from uploader.models import UploadForm,Candidate,User,Synclog
 from django.http import HttpResponse, HttpResponseRedirect
 from django.core.urlresolvers import reverse
 # Create your views here.
+from django.contrib.auth.decorators import login_required
 
+@login_required
 def home(request):	
 	users=User.objects.order_by('-date')
 	return render(request,'home.html',{'users':users})
 
+@login_required
 def candidates(request):	
 	cands=Candidate.objects.order_by('-date')
 	return render(request,'candidates.html',{'cands':cands})
 
+@login_required
 def sync_log(request):	
 	slog=Synclog.objects.order_by('-date')
 	return render(request,'logs.html',{'logs':slog})
 
+@login_required
 def upload(request,pk):
 	usr=User.objects.get(pk=pk)
 	if usr.pic:

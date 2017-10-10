@@ -14,6 +14,7 @@ $ pip install virtualenv
 $ virtualenv env
 $ source ./env/bin/activate
 $ pip install django
+$ pip install celery
 ```
 + Migrate and sync db and give permission to media:
 ```
@@ -21,6 +22,7 @@ $ mkdir media
 $ chmod 777 media
 $ ./manage.py makemigrations
 $ ./manage.py migrate
+$ ./manage.py loaddata users.json
 $ cd media/
 $ chmod 777 db.sqlite3
 ```
@@ -45,51 +47,6 @@ $ echo 'deb http://www.rabbitmq.com/debian/ testing main' |
      sudo tee /etc/apt/sources.list.d/rabbitmq.list
 $ apt-get update
 $ apt-get install rabbitmq-server
-```
-
-+ Install Celery
-`pip install celery`
-
-+ Add file `sampleapp/sampleapp/celery.py`:
-```
-from __future__ import absolute_import, unicode_literals
-import os
-from celery import Celery
-
-os.environ.setdefault('DJANGO_SETTINGS_MODULE', 'sampleapp.settings')
-
-app = Celery('sampleapp')
-
-app.config_from_object('django.conf:settings', namespace='CELERY')
-
-app.autodiscover_tasks()
-
-@app.task(bind=True)
-def debug_task(self):
-    print('Request: {0!r}'.format(self.request))
-```
-+ update `sampleapp/sampleapp/__init__.py`:
-```
-from __future__ import absolute_import, unicode_literals
-
-# This will make sure the app is always imported when
-# Django starts so that shared_task will use this app.
-from .celery import app as celery_app
-
-__all__ = ['celery_app']
-```
-+ starting the worker process
-`celery -A sampleapp worker -l info -B`
-+ create `uploader/tasks.py`:
-```
-# Create your tasks here
-from __future__ import absolute_import, unicode_literals
-from celery import shared_task
-
-@shared_task
-def add(x, y):
-    return x + y
-
 ```
 
 + Daemonization
@@ -155,12 +112,6 @@ startsecs=10
 priority=999
 ```
 
-create empty log files:
-
-```
-$ touch /var/log/celery/proj_worker.log
-$ touch /var/log/celery/proj_beat.log
-```
 update change for supervisor:
 ```
 $ supervisorctl reread

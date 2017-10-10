@@ -15,6 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url
 from django.contrib import admin
+from django.contrib.auth import views as auth_views
 
 from django.conf import settings
 from django.conf.urls.static import static
@@ -22,6 +23,9 @@ from uploader import views as uploader_views
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
+    url(r'^accounts/login/$', auth_views.login, {'template_name': 'login.html'}),
+    url(r'^logout/$', auth_views.logout,name="logout"),
+    
 
 	url(r'^$', uploader_views.home, name='home'),
     url(r'^candidates/$', uploader_views.candidates, name='candidates'),
