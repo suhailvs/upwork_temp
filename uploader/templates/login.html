@@ -1,0 +1,43 @@
+{% extends "base.html" %}
+{% block extra_head %}
+<style type="text/css">
+
+body {
+  padding-top: 40px;
+  padding-bottom: 40px;
+  background-color: #eee;
+}
+
+.form-signin {
+  max-width: 330px;
+  padding: 15px;
+  margin: 0 auto;
+}
+.form-signin .form-control {
+  position: relative;
+  height: auto;
+  -webkit-box-sizing: border-box;
+          box-sizing: border-box;
+  padding: 10px;
+  font-size: 16px;
+}
+.form-signin .form-control:focus {
+  z-index: 2;
+}
+
+.form-signin input {
+  margin-bottom: 10px;
+  border-top-left-radius: 0;
+  border-top-right-radius: 0;
+}
+</style>
+{% endblock %}
+{% block body %}
+<form class="form-signin card" method="post" action=".">{% csrf_token %}      
+  {% if form.errors %}<p>Your username and password didn't match. Please try again.</p>{% endif %}    
+  <input type="text" class="form-control" placeholder="Username" required autofocus name="username">
+  <input type="password" class="form-control" placeholder="Password" required name="password">   
+  <input type="hidden" name="next" value="/" />   <br>
+  <button class="btn btn-lg btn-primary btn-block" type="submit">Sign in</button>
+</form>
+{% endblock %}

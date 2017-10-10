@@ -10,9 +10,17 @@
 
     <!-- Bootstrap CSS -->
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-beta/css/bootstrap.min.css">
+    {% block extra_head %}{% endblock %}
   </head>
   <body>
     <div class="container" style="margin-top: 40px">
+    {% block body %}
+    
+    {% if user.is_active %}
+    <div class="float-right"> 
+     <a href="{% url 'logout' %}?next=/">logout ({{user.username}})</a>
+    </div>
+    {% endif %}
       <ul class="nav nav-tabs">
         <li class="nav-item">
           <a class="nav-link{% if request.path == users_url %} active{% endif %}" href="{{users_url}}">Users</a>
@@ -25,6 +33,7 @@
         </li>
       </ul>
   		<div style="padding: 20px">{% block content %}{%endblock%}</div>
+    {% endblock %}
     </div>
    </body>
  </html>
