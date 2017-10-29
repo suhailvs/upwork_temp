@@ -7,7 +7,7 @@ import urllib2,json
 
 def api_request(endpoint):	
 	api_key="Bearer c89a75b73fc1a4753d9fa4a0361e3e49"
-	api_url="http://api.jobadder.com/v2"+endpoint
+	api_url="https://api.jobadder.com/v2"+endpoint
 	req = urllib2.Request(api_url)
 	req.add_header('Authorization',api_key)
 	resp=urllib2.urlopen(req)	

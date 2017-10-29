@@ -12,7 +12,7 @@ from celery.schedules import crontab
 app.conf.beat_schedule = {
     'task_users': {
         'task': 'uploader.tasks.sync_api',
-        'schedule': crontab(minute='*/10')
+        'schedule': crontab(minute=0, hour=0)
     }
 }
 @app.task(bind=True)
