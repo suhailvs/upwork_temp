@@ -2,7 +2,7 @@
 + Install Apache
 ```
 $ apt-get update
-$ apt-get install python-pip apache2 libapache2-mod-wsgi
+$ apt-get install python3-pip apache2 libapache2-mod-wsgi-py3
 ```
 
 + Change dir: `$ cd /var/www/`
@@ -10,7 +10,7 @@ $ apt-get install python-pip apache2 libapache2-mod-wsgi
 + Change dir: `$ cd upwork_temp`
 + Create virtual and install django:
 ```
-$ pip install virtualenv
+$ pip3 install virtualenv
 $ virtualenv env
 $ source ./env/bin/activate
 $ pip install django
@@ -30,11 +30,17 @@ $ chmod 777 db.sqlite3
 + Edit apache config :
 
 ```
-$ vi /etc/apache2/sites-enabled/000-default.conf
+$ vi /etc/apache2/sites-available/upwork_temp.conf
 
-WSGIDaemonProcess sampleapp python-path=/var/www/upwork_temp:/var/www/upwork_temp/env/lib/python2.7/site-packages
-WSGIProcessGroup sampleapp
-WSGIScriptAlias / /var/www/upwork_temp/sampleapp/wsgi.py
+<VirtualHost *:80>
+    ServerName ng.helpservice.xyz
+
+    WSGIDaemonProcess upworkapp python-home=/var/www/upwork_temp/env python-path=/var/www/upwork_temp
+    WSGIProcessGroup upworkapp
+    WSGIScriptAlias / /var/www/upwork_temp/sampleapp/wsgi.py
+    ErrorLog /var/www/upwork_temp/error.log
+    CustomLog /var/www/upwork_temp/access.log combined
+</VirtualHost>
 
 ```
 + restart apache: `service apache2 reload`
@@ -133,3 +139,27 @@ $ supervisorctl status projbeat
 
 checkout log in:
 `$ /var/log/supervisor`
+
+
+# lets encrypt for HTTPS
+
+https://github.com/certbot/certbot/issues/1820
+
+I had to comment the `WSGIDaemonProcess` line out before running letsencrypt. 
+
+in `/etc/apache2/sites-available/upwork_temp.conf`::
+
+    <VirtualHost *:80>
+        ServerName ng.helpservice.xyz
+
+        # WSGIDaemonProcess upworkapp python-home=/var/www/upwork_temp/env python-path=/var/www/upwork_temp
+
+
+https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04
+
+    add-apt-repository ppa:certbot/certbot
+    apt-get update
+    apt-get install python-certbot-apache
+    certbot --apache -d example.com -d www.example.com
+
+Then uncommented `WSGIDaemonProcess`.
