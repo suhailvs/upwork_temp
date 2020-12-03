@@ -157,9 +157,7 @@ in `/etc/apache2/sites-available/upwork_temp.conf`::
 
 https://www.digitalocean.com/community/tutorials/how-to-secure-apache-with-let-s-encrypt-on-ubuntu-16-04
 
-    add-apt-repository ppa:certbot/certbot
-    apt-get update
-    apt-get install python-certbot-apache
+    apt-get install python3-certbot-apache
     certbot --apache -d example.com -d www.example.com
 
 Then uncommented `WSGIDaemonProcess`.
