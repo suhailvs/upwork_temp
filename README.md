@@ -45,6 +45,23 @@ $ vi /etc/apache2/sites-available/upwork_temp.conf
 ```
 + restart apache: `service apache2 reload`
 
+## Nginx install
+
+    sudo apt update
+    sudo apt install nginx
+
+
+You have to go to the file `/etc/nginx/sites-enabled/default` edit port 81:
+
+    server {
+        listen 81 default_server;
+        listen [::]:81 default_server;
+
+Restart the server;
+
+    sudo service nginx restart
+
+
 # Celery Installation
 
 + Install Rabbitmq:
