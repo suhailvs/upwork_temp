@@ -62,6 +62,57 @@ Restart the server;
     sudo service nginx restart
 
 
+### Gunicorn setup
+
+https://www.digitalocean.com/community/tutorials/how-to-set-up-django-with-postgres-nginx-and-gunicorn-on-ubuntu-18-04
+
+    pip install gunicorn
+    gunicorn --bind 0.0.0.0:8000 sampleapp.wsgi
+
+Creating systemd Socket and Service Files for Gunicorn
+
+    # sudo vim /etc/systemd/system/gunicorn.socket
+    [Unit]
+    Description=gunicorn socket
+    [Socket]
+    ListenStream=/run/gunicorn.sock
+    [Install]
+    WantedBy=sockets.target
+
+service
+
+    # sudo vim /etc/systemd/system/gunicorn.service
+    [Unit]
+    Description=gunicorn daemon
+    Requires=gunicorn.socket
+    After=network.target
+    [Unit]
+    Description=gunicorn daemon
+    Requires=gunicorn.socket
+    After=network.target
+    [Service]
+    User=sammy
+    Group=www-data
+    WorkingDirectory=/home/suhail/github/flavour
+    ExecStart=/home/suhail/github/flavour/env/bin/gunicorn \
+              --access-logfile - \
+              --workers 3 \
+              --bind unix:/run/gunicorn.sock \
+              mysite.wsgi:application
+    [Install]
+    WantedBy=multi-user.target
+
+We can now start and enable the Gunicorn socket. 
+
+    sudo systemctl start gunicorn.socket
+    sudo systemctl enable gunicorn.socket
+
+
+Check your /etc/systemd/system/gunicorn.service file for problems. If you make changes to the /etc/systemd/system/gunicorn.service file, reload the daemon to reread the service definition and restart the Gunicorn process by typing:
+
+    sudo systemctl daemon-reload
+    sudo systemctl restart gunicorn
+    
 # Celery Installation
 
 + Install Rabbitmq:
